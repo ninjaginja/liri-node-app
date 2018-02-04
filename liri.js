@@ -12,30 +12,36 @@ if (command == 'my-tweets') {
     count: 20,
   }
 
-  client.get('statuses/user_timeline', params, function(error, data, response) {
-    if(!error) {
+  client.get('statuses/user_timeline', params, function(err, data, response) {
+    if(!err) {
     // console.log(data);
       for (var i = 0; i < data.length; i++) {
         console.log(data[i].text + '(' + data[i].created_at + ')');
       }
     } else {
-    console.log(error);
+    console.log(err);
     }
   });
-
 }
   else if (command == 'spotify-this-song') {
-    console.log('spotify-this-song');
     var spotify = new Spotify({
       id: '5c9e4058b9344f12b1a898462e0f0bd5',
       secret: 'a2f3387a2d284228a6ec1ee35318d0da'
     });
-    spotify.search({ type: 'track', query: process.argv[3] }, function(error, data) {
-  if (error) {
-    return console.log('Error occurred: ' + err);
-  } console.log(data);
-});
-
+    if (process.argv[3] != null) {
+      spotify.search({ type: 'track', query: process.argv[3] }, function(err, data) {
+        if (!err) {
+          console.log(JSON.stringify(data, null, 2));
+        } return console.log('Error occurred: ' + err);
+      });
+    } spotify
+        .request('https://api.spotify.com/v1/tracks/0hrBpAOgrt8RXigk83LLNE')
+        .then(function(data) {
+          console.log('"' + data.name + '"' + ' by ' + data.album.artists[0].name);
+        })
+        .catch(function(err) {
+          console.error('Error occurred: ' + err);
+        });
 }
   else if (command == 'movie-this') {
   console.log('movie-this');
