@@ -28,10 +28,22 @@ if (command == 'my-tweets') {
       id: '5c9e4058b9344f12b1a898462e0f0bd5',
       secret: 'a2f3387a2d284228a6ec1ee35318d0da'
     });
-    if (process.argv[3] != null) {
-      spotify.search({ type: 'track', query: process.argv[3] }, function(err, data) {
+
+    if (process.argv[3] != "") {
+      var input = process.argv;
+      var songName = "";
+      for (var i = 3; i < input.length; i++) {
+        if (i > 3 && i < input.length) {
+          songName = songName + '+' + (input[i]);
+        } else {
+          songName += input[i];
+        }
+      }
+
+      spotify.search({ type: 'track', query: songName }, function(err, data) {
         if (!err) {
-          console.log(JSON.stringify(data, null, 2));
+          // console.log(JSON.stringify(data, null, 4));
+          console.log(data.tracks.items[0].artists[0].name);
         } return console.log('Error occurred: ' + err);
       });
     } spotify
