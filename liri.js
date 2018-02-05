@@ -16,6 +16,7 @@ if (command == 'my-tweets') {
     if(!err) {
       for (var i = 0; i < data.length; i++) {
         console.log(data[i].text + '(' + data[i].created_at + ')');
+        console.log("------------------------------------------")
       }
     } else {
     console.log(err);
@@ -38,13 +39,26 @@ if (command == 'my-tweets') {
         }
       }
 
+            function uppercase(str) {
+              var array1 = str.split(' ');
+              var newarray1 = [];
+
+              for(var x = 0; x < array1.length; x++){
+                  newarray1.push(array1[x].charAt(0).toUpperCase()+array1[x].slice(1));
+              }
+              return newarray1.join(' ');
+            }
+              // console.log(uppercase("the quick brown fox"));
+
+
       spotify.search({ type: 'track', query: songName }, function(err, data) {
         if (!err) {
+          var formattedSongName = songName.split('+').join(' ');
           // console.log(JSON.stringify(data, null, 4));
           console.log("------------------------------------------")
           console.log('Artist: ' + data.tracks.items[0].artists[0].name);
-          console.log('Song name: ' + songName.replace('+', ' ').replace(/(^|\s)[a-z]/g,function(f){return f.toUpperCase();}));
-          console.log('Preview link: ' + data.tracks.items[0].external_urls.spotify);
+          console.log('Song name: ' + uppercase(formattedSongName));
+          console.log('Preview link: ' + data.tracks.items[0].preview_url);
           console.log('Album: ' + data.tracks.items[0].album.name);
           console.log("------------------------------------------")
         } else {
@@ -55,8 +69,12 @@ if (command == 'my-tweets') {
           spotify
           .request('https://api.spotify.com/v1/tracks/0hrBpAOgrt8RXigk83LLNE')
           .then(function(data) {
+            console.log(data);
             console.log("------------------------------------------")
-            console.log('"' + data.name + '"' + ' by ' + data.album.artists[0].name);
+            console.log('Artist: ' + data.album.artists[0].name);
+            console.log('Song name: ' + data.name);
+            console.log('Preview link: ' + data.preview_url);
+            console.log('Album: ' + data.album.name);
             console.log("------------------------------------------")
           })
           .catch(function(err) {
