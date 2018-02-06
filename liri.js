@@ -31,62 +31,66 @@ if (command == 'my-tweets') {
     });
     var input = process.argv;
     var songName = "";
-    if (process.argv.length > 3) {
-      for (var i = 3; i < input.length; i++) {
-        if (i > 3 && i < input.length) {
-          songName = songName + '+' + (input[i]);
-        } else {
-          songName += input[i];
+
+    function spotifyThis() {
+      if (process.argv.length > 3) {
+        for (var i = 3; i < input.length; i++) {
+          if (i > 3 && i < input.length) {
+            songName = songName + '+' + (input[i]);
+          } else {
+            songName += input[i];
+          }
         }
-      }
+              function uppercase(str) {
+                var array1 = str.split(' ');
+                var newarray1 = [];
 
-            function uppercase(str) {
-              var array1 = str.split(' ');
-              var newarray1 = [];
-
-              for(var x = 0; x < array1.length; x++){
-                  newarray1.push(array1[x].charAt(0).toUpperCase()+array1[x].slice(1));
+                for(var x = 0; x < array1.length; x++){
+                    newarray1.push(array1[x].charAt(0).toUpperCase()+array1[x].slice(1));
+                }
+                return newarray1.join(' ');
               }
-              return newarray1.join(' ');
-            }
-              // console.log(uppercase("the quick brown fox"));
 
 
-      spotify.search({ type: 'track', query: songName }, function(err, data) {
-        if (!err) {
-          var formattedSongName = songName.split('+').join(' ');
-          // console.log(JSON.stringify(data, null, 4));
-          console.log("------------------------------------------")
-          console.log('Artist: ' + data.tracks.items[0].artists[0].name);
-          console.log('Song name: ' + uppercase(formattedSongName));
-          console.log('Preview link: ' + data.tracks.items[0].preview_url);
-          console.log('Album: ' + data.tracks.items[0].album.name);
-          console.log("------------------------------------------")
-        } else {
-          console.log('Error occurred: ' + err);
-        }
-      });
-    } else {
-          spotify
-          .request('https://api.spotify.com/v1/tracks/0hrBpAOgrt8RXigk83LLNE')
-          .then(function(data) {
-            console.log(data);
+        spotify.search({ type: 'track', query: songName }, function(err, data) {
+          if (!err) {
+            var formattedSongName = songName.split('+').join(' ');
+            // console.log(JSON.stringify(data, null, 4));
             console.log("------------------------------------------")
-            console.log('Artist: ' + data.album.artists[0].name);
-            console.log('Song name: ' + data.name);
-            console.log('Preview link: ' + data.preview_url);
-            console.log('Album: ' + data.album.name);
+            console.log('Artist: ' + data.tracks.items[0].artists[0].name);
+            console.log('Song name: ' + uppercase(formattedSongName));
+            console.log('Preview link: ' + data.tracks.items[0].preview_url);
+            console.log('Album: ' + data.tracks.items[0].album.name);
             console.log("------------------------------------------")
-          })
-          .catch(function(err) {
-            console.error('Error occurred: ' + err);
-          });
-        }
+          } else {
+            console.log('Error occurred: ' + err);
+          }
+        });
+      } else {
+            spotify
+            .request('https://api.spotify.com/v1/tracks/0hrBpAOgrt8RXigk83LLNE')
+            .then(function(data) {
+              // console.log(data);
+              console.log("------------------------------------------")
+              console.log('Artist: ' + data.album.artists[0].name);
+              console.log('Song name: ' + data.name);
+              console.log('Preview link: ' + data.preview_url);
+              console.log('Album: ' + data.album.name);
+              console.log("------------------------------------------")
+            })
+            .catch(function(err) {
+              console.error('Error occurred: ' + err);
+            });
+          }
+    }
+    spotifyThis();
   }
     else if (command == 'movie-this') {
       // console.log('movie-this');
       var input = process.argv;
       var movieName = "";
+
+    function movieThis() {
       if (input.length > 3) {
         for (var i = 3; i < input.length; i++) {
           if (i > 3 && i < input.length) {
@@ -129,7 +133,8 @@ if (command == 'my-tweets') {
             }
           });
         }
-
+    }
+      movieThis();
     }
       else if (command == 'do-what-it-says') {
         // console.log('do-what-it-says');
@@ -141,7 +146,8 @@ if (command == 'my-tweets') {
               var dataArr = data.split(",");
               console.log(dataArr);
                 if (dataArr[0] == 'spotify-this-song') {
-                  command == 'spotify-this-song';
+                  spotifyThis();
+
                 }
             }
         });
