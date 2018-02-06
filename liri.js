@@ -2,6 +2,7 @@ var request = require("request");
 var twitter = require('twitter');
 var twitterKeys = require("./keys.js");
 var Spotify = require('node-spotify-api');
+var fs = require('fs-extra');
 
 var command = process.argv[2];
 
@@ -131,8 +132,24 @@ if (command == 'my-tweets') {
 
     }
       else if (command == 'do-what-it-says') {
-      console.log('do-what-it-says');
-
-      } else {
-        console.log("Please enter a command.");
+        // console.log('do-what-it-says');
+        fs.readFile("random.txt", "utf8", function(error, data) {
+          if (error) {
+            return console.log(error);
+          } else {
+              console.log(data);
+              var dataArr = data.split(",");
+              console.log(dataArr);
+                if (dataArr[0] == 'spotify-this-song') {
+                  command == 'spotify-this-song';
+                }
+            }
+        });
+      }
+        else {
+          console.log("Please enter one of the following commands:");
+          console.log("   'my-tweets'");
+          console.log("   'spotify-this-song <enter song title>'");
+          console.log("   'movie-this <enter movie title>'");
+          console.log("   'do-what-it-says'");
         }
