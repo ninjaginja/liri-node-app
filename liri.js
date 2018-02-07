@@ -54,7 +54,6 @@ function spotifyDefinedSong() {
   spotify.search({ type: 'track', query: formattedInput }, function(err, data) {
     if (!err) {
       var formattedSongName = formattedInput.split('+').join(' ');
-      // console.log(JSON.stringify(data, null, 4));
       console.log("------------------------------------------")
       console.log('Artist: ' + data.tracks.items[0].artists[0].name);
       console.log('Song name: ' + uppercase(formattedSongName));
@@ -78,7 +77,6 @@ function spotifyDefaultSong() {
   spotify
   .request('https://api.spotify.com/v1/tracks/0hrBpAOgrt8RXigk83LLNE')
   .then(function(data) {
-    // console.log(data);
     console.log("------------------------------------------")
     console.log('Artist: ' + data.album.artists[0].name);
     console.log('Song name: ' + data.name);
@@ -117,7 +115,6 @@ function defaultMovie() {
   var mrNobodyUrl = "http://www.omdbapi.com/?apikey=trilogy&type=movie&plot=short&t=mr+nobody";
   request(mrNobodyUrl, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-      // console.log(JSON.parse(body));
       console.log("------------------------------------------")
       console.log("Movie title: " + JSON.parse(body).Title);
       console.log("Released: " + JSON.parse(body).Year);
@@ -177,20 +174,17 @@ if (command == 'my-tweets') {
         }
     }
 
-// Do what it says command
+// Do what it says command (from random.txt file)
       else if (command == 'do-what-it-says') {
         // console.log('do-what-it-says');
         fs.readFile("random.txt", "utf8", function(error, data) {
           if (error) {
             return console.log(error);
           } else {
-              // console.log(data);
               var dataArr = data.split(",");
-              // console.log(dataArr);
 
               // Spotify commands ------------------------
               if (dataArr[0] == 'spotify-this-song') {
-
 
                 var input = dataArr[1].split(' ');
 
